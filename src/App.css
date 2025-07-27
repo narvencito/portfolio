@@ -1,0 +1,39 @@
+/* Eliminar todos los estilos por defecto y dejar solo los necesarios */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.flex {
+  display: flex;
+  flex-direction: column;
+}
+
+.scroll {
+  overflow-x: hidden;
+}
+
+/* App Layout */
+.app {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow-x: hidden;
+    background: transparent;
+}
+
+main {
+    flex: 1;
+    width: 100%;
+    padding-top: 80px;
+    position: relative;
+    z-index: 1;
+}
+
+.container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
