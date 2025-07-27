@@ -1,29 +1,38 @@
-import { useEffect } from 'react';
+import { motion } from 'framer-motion';
+import { useInView } from 'framer-motion';
+import { useRef } from 'react';
 
-const ScrollReveal = () => {
-  useEffect(() => {
-    const handleScroll = () => {
-      const reveals = document.querySelectorAll('.reveal');
-      
-      reveals.forEach(element => {
-        const windowHeight = window.innerHeight;
-        const elementTop = element.getBoundingClientRect().top;
-        const elementVisible = 150; // Punto en el que se activa la animación
-        
-        if (elementTop < windowHeight - elementVisible) {
-          element.classList.add('active');
-        }
-      });
-    };
+const ScrollReveal = ({ children, threshold = 0.1 }) => {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, threshold });
 
-    window.addEventListener('scroll', handleScroll);
-    // Ejecutar una vez al montar para elementos visibles inicialmente
-    handleScroll();
+  const variants = {
+    hidden: { 
+      y: 50,
+      opacity: 0 
+    },
+    visible: { 
+      y: 0,
+      opacity: 1,
+      transition: {
+        duration: 0.6,
+        ease: "easeOut",
+        staggerChildren: 0.2
+      }
+    }
+  };
 
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  return null;
+  return (
+    <motion.div
+      ref={ref}
+      variants={variants}
+      initial="hidden"
+      animate={isInView ? "visible" : "hidden"}
+      style={{ width: '100%' }}
+    >
+      {children}
+    </motion.div>
+  );
 };
 
 export default ScrollReveal;

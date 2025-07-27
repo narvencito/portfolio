@@ -1,4 +1,6 @@
+import { useEffect } from 'react';
 import Header from './components/layout/Header'
+import Footer from './components/layout/Footer'
 import Hero from './components/sections/Hero'
 import About from './components/sections/About'
 import Projects from './components/sections/Projects'
@@ -13,29 +15,41 @@ function App() {
     <>
       <div className="bg-animation"></div>
       <div className="app">
-        <ScrollReveal />
         <Header />
         <main>
           <section id="home" className="hero">
             <Hero />
           </section>
-          <section id="about" className="reveal">
-            <h2 className="section-title">Sobre mí</h2>
-            <About />
-          </section>
-          <section id="skills" className="reveal">
-            <h2 className="section-title">Habilidades</h2>
-            <Skills />
-          </section>
-          <section id="projects" className="reveal">
-            <h2 className="section-title">Proyectos</h2>
-            <Projects />
-          </section>
-          <section id="contact" className="reveal">
-            <h2 className="section-title">Contacto</h2>
-            <Contact />
-          </section>
+          
+          <ScrollReveal>
+            <section id="about">
+              <h2 className="section-title">Sobre mí</h2>
+              <About />
+            </section>
+          </ScrollReveal>
+
+          <ScrollReveal>
+            <section id="skills">
+              <h2 className="section-title">Habilidades</h2>
+              <Skills />
+            </section>
+          </ScrollReveal>
+
+          <ScrollReveal>
+            <section id="projects">
+              <h2 className="section-title">Proyectos</h2>
+              <Projects />
+            </section>
+          </ScrollReveal>
+
+          <ScrollReveal>
+            <section id="contact">
+              <h2 className="section-title">Contacto</h2>
+              <Contact />
+            </section>
+          </ScrollReveal>
         </main>
+        <Footer />
       </div>
     </>
   )
