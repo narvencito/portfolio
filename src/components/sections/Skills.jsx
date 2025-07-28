@@ -1,165 +1,188 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { useState } from 'react';
 
-const SkillModal = ({ skill, isSelected, onClose }) => {
-  const modalVariants = {
-    open: {
-      opacity: 1,
-      scale: 1,
-      transition: {
-        type: "spring",
-        stiffness: 300,
-        damping: 30
-      }
-    },
-    closed: {
-      opacity: 0,
-      scale: 0.95,
-      transition: {
-        duration: 0.2
-      }
-    }
-  };
+export const skillDetailsMap = {
+  Flutter: {
+    description: 'Framework que domino para desarrollar aplicaciones móviles y web de alto rendimiento desde una única base de código.',
+    keyPoints: [
+      'Gestores de estado: Bloc, Riverpod, GetX',
+      'Integración de APIs RESTful y Firebase',
+      'Uso de bases de datos locales: SQLite y ObjectBox',
+      'Aplicación de flavors y configuración por entorno',
+      'Despliegue en App Store y Play Store',
+      'Soporte multiplataforma: mobile, web y desktop',
+      'Crashlytics y Analytics integrados',
+    ],
+    tools: ['Flutter SDK', 'Dart', 'Android Studio', 'Xcode', 'FlutterFire'],
+    experience: '+5 años',
+  },
+  Angular: {
+    description: 'Framework robusto que utilizo desde Angular 8 en proyectos empresariales y web apps escalables.',
+    keyPoints: [
+      'Componentes y módulos reutilizables',
+      'RxJS y programación reactiva',
+      'Routing avanzado y lazy loading',
+      'Formularios reactivos y validaciones',
+      'Consumo de APIs y manejo de errores',
+    ],
+    tools: ['Angular CLI', 'TypeScript', 'RxJS', 'VS Code'],
+    experience: '+4 años',
+  },
+  React: {
+    description: 'Librería moderna para desarrollo frontend basada en componentes y declaratividad.',
+    keyPoints: [
+      'Hooks personalizados y context API',
+      'Tailwind y diseño responsivo',
+      'Estado global con Redux',
+      'Optimización de performance y lazy loading',
+    ],
+    tools: ['React DevTools', 'Vite', 'Redux Toolkit', 'Tailwind CSS'],
+    experience: '+2 años',
+  },
+  '.NET Core': {
+    description: 'Framework principal que uso para desarrollar APIs RESTful, microservicios y sistemas empresariales.',
+    keyPoints: [
+      'Web API con buenas prácticas',
+      'Entity Framework Core y LINQ',
+      'CQRS, patrones DDD y repositorio',
+      'Autenticación con JWT',
+      'Despliegue en IIS, Heroku, Railway y AWS',
+    ],
+    tools: ['Visual Studio', 'Swagger', 'Postman', 'SQL Server', 'LINQPad'],
+    experience: '+5 años',
+  },
+  NestJS: {
+    description: 'Framework modular de Node.js con el que desarrollo APIs escalables y mantenibles.',
+    keyPoints: [
+      'Arquitectura limpia y modular',
+      'Decoradores, DTOs y validaciones',
+      'Patrones CQRS, DDD y repositorio',
+      'JWT, Passport y manejo de roles',
+      'Despliegue en Railway, AWS, Heroku',
+    ],
+    tools: ['Nest CLI', 'Swagger', 'Jest', 'TypeORM', 'Prisma'],
+    experience: '+3 años',
+  },
+  SpringBoot: {
+    description: 'Framework utilizado para construir APIs RESTful y sistemas backend con Java.',
+    keyPoints: [
+      'Manejo de dependencias con Maven',
+      'Spring Data JPA y controladores REST',
+      'Autenticación con JWT',
+    ],
+    tools: ['Spring Tool Suite', 'Postman', 'Swagger'],
+    experience: '+1 año',
+  },
+  SQLServer: {
+    description: 'Motor de base de datos relacional con el que desarrollo y optimizo consultas complejas.',
+    keyPoints: [
+      'Stored Procedures y triggers',
+      'Optimización de consultas e índices',
+      'Integración con .NET',
+    ],
+    tools: ['SSMS', 'SQL Profiler', 'Azure Data Studio'],
+    experience: '+5 años',
+  },
+  PostgreSQL: {
+    description: 'Motor que uso en ambientes productivos, especialmente con NestJS y microservicios.',
+    keyPoints: [
+      'Consultas SQL avanzadas y joins',
+      'Funciones PL/pgSQL y triggers',
+      'Índices GIN, GIST y transacciones',
+    ],
+    tools: ['pgAdmin', 'DBeaver', 'Prisma', 'Sequelize'],
+    experience: '+3 años',
+  },
+  Oracle: {
+    description: 'Base de datos usada en sistemas empresariales legacy con PL/SQL y conexiones .NET.',
+    keyPoints: [
+      'Desarrollo de paquetes, funciones y procedimientos',
+      'Optimización de queries',
+      'Integración vía ODP.NET',
+    ],
+    tools: ['SQL Developer', 'Toad', 'Oracle Forms'],
+    experience: '+2 años',
+  },
+  Firebase: {
+    description: 'Backend como servicio para prototipos y apps móviles reales.',
+    keyPoints: [
+      'Firestore y Realtime Database',
+      'Autenticación con múltiples proveedores',
+      'Cloud Functions y Hosting',
+      'Crashlytics y Firebase Analytics',
+      'Push notifications con FCM',
+    ],
+    tools: ['Firebase Console', 'Firebase CLI', 'FlutterFire'],
+    experience: '+3 años',
+  },
+  AWS: {
+    description: 'Plataforma cloud utilizada para despliegue y servicios móviles.',
+    keyPoints: [
+      'Amplify para frontend y backend',
+      'Autenticación con Cognito',
+      'Almacenamiento en S3',
+      'Funciones Lambda y API Gateway',
+    ],
+    tools: ['AWS Console', 'Amplify CLI', 'CloudWatch', 'IAM'],
+    experience: '+2 años',
+  },
+  Docker: {
+    description: 'Herramienta esencial para ambientes de desarrollo consistentes y despliegue.',
+    keyPoints: [
+      'Creación de imágenes y contenedores',
+      'Docker Compose para microservicios',
+      'Integración en CI/CD pipelines',
+    ],
+    tools: ['Docker CLI', 'Docker Desktop'],
+    experience: '+2 años',
+  },
+  CI_CD: {
+    description: 'Configuración de pipelines automatizados para entrega continua de software.',
+    keyPoints: [
+      'GitHub Actions para CI/CD',
+      'Codemagic para Flutter',
+      'Workflows por entorno (QA, prod)',
+    ],
+    tools: ['GitHub Actions', 'Codemagic', 'Docker', 'YAML'],
+    experience: '+2 años',
+  }
+};
 
-  const overlayVariants = {
-    open: {
-      backgroundColor: "rgba(0, 0, 0, 0.8)",
-      backdropFilter: "blur(10px)"
-    },
-    closed: {
-      backgroundColor: "rgba(0, 0, 0, 0)",
-      backdropFilter: "blur(0px)"
-    }
-  };
 
-  const getSkillDetails = (skill) => {
-    const details = {
-      'Frontend & Mobile': {
-        description: 'Desarrollo de interfaces modernas y responsivas',
-        keyPoints: ['UI/UX', 'Responsive Design', 'Mobile First', 'Cross-platform'],
-        tools: ['VS Code', 'Android Studio', 'Xcode', 'Figma']
-      },
-      'Backend': {
-        description: 'Arquitectura y desarrollo de APIs escalables',
-        keyPoints: ['REST APIs', 'GraphQL', 'Microservicios', 'Clean Architecture'],
-        tools: ['Postman', 'Swagger', 'Docker', 'Git']
-      },
-      'Bases de Datos': {
-        description: 'Diseño y optimización de bases de datos',
-        keyPoints: ['Modelado', 'Optimización', 'Migración', 'Backup'],
-        tools: ['DBeaver', 'MongoDB Compass', 'pgAdmin', 'SSMS']
-      },
-      'Cloud & DevOps': {
-        description: 'Implementación y gestión de infraestructura cloud',
-        keyPoints: ['CI/CD', 'Containerization', 'Cloud Services', 'Monitoring'],
-        tools: ['Docker', 'Kubernetes', 'Jenkins', 'Terraform']
-      },
-      'Gestión de Estado': {
-        description: 'Manejo eficiente del estado en aplicaciones',
-        keyPoints: ['State Management', 'Cache', 'Persistencia', 'Sincronización'],
-        tools: ['Redux DevTools', 'MobX', 'VueX', 'NgRx']
-      },
-      'Testing & Quality': {
-        description: 'Aseguramiento de calidad y testing',
-        keyPoints: ['Unit Testing', 'E2E Testing', 'Integration Tests', 'QA'],
-        tools: ['Jest', 'Cypress', 'Selenium', 'JUnit']
-      },
-      'Metodologías': {
-        description: 'Metodologías ágiles y gestión de proyectos',
-        keyPoints: ['Scrum', 'Kanban', 'XP', 'Lean'],
-        tools: ['Jira', 'Trello', 'Confluence', 'Notion']
-      }
-    };
-
-    return details[skill.category] || {
-      description: 'Experiencia detallada en desarrollo de software',
-      keyPoints: ['Desarrollo', 'Implementación', 'Mantenimiento', 'Optimización'],
-      tools: ['IDEs', 'Control de versiones', 'Herramientas de desarrollo']
-    };
-  };
-
-  const details = getSkillDetails(skill);
+const SkillModal = ({ skill, onClose }) => {
+  const details = skillDetailsMap[skill.name];
+  if (!details) return null;
 
   return (
     <motion.div
-      initial="closed"
-      animate="open"
-      exit="closed"
-      variants={overlayVariants}
       className="modal-overlay"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
       onClick={onClose}
     >
-      <motion.div
-        className="skill-modal"
-        variants={modalVariants}
-        layoutId={`skill-card-${skill.id}`}
-        onClick={(e) => e.stopPropagation()}
-      >
-        <motion.div className="modal-header" layoutId={`skill-header-${skill.id}`}>
-          <motion.div 
-            className="modal-icon"
-            layoutId={`skill-icon-${skill.id}`}
-          >
-            {skill.icon}
-          </motion.div>
-          <motion.h3 layoutId={`skill-name-${skill.id}`}>
-            {skill.name}
-          </motion.h3>
-          <motion.span 
-            className="experience"
-            layoutId={`skill-experience-${skill.id}`}
-          >
-            {skill.experience}
-          </motion.span>
-        </motion.div>
-
-        <motion.div
-          className="modal-content"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2 }}
-        >
+      <motion.div className="skill-modal" layoutId={skill.name} onClick={(e) => e.stopPropagation()}>
+        <div className="modal-header">
+          <div className="modal-icon">{skill.icon}</div>
+          <h3>{skill.name}</h3>
+          <span className="experience">{skill.experience}</span>
+        </div>
+        <div className="modal-content">
           <p className="description">{details.description}</p>
-          
           <h4>Puntos Clave</h4>
           <ul className="key-points">
             {details.keyPoints.map((point, index) => (
-              <motion.li
-                key={index}
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.3 + index * 0.1 }}
-              >
-                {point}
-              </motion.li>
+              <li key={index}>{point}</li>
             ))}
           </ul>
-
           <h4>Herramientas</h4>
           <div className="tools-grid">
             {details.tools.map((tool, index) => (
-              <motion.div
-                key={index}
-                className="tool-item"
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: 0.4 + index * 0.1 }}
-              >
-                {tool}
-              </motion.div>
+              <div key={index} className="tool-item">{tool}</div>
             ))}
           </div>
-        </motion.div>
-
-        <motion.button
-          className="modal-close"
-          onClick={onClose}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.5 }}
-        >
-          ×
-        </motion.button>
+        </div>
+        <button className="modal-close" onClick={onClose}>×</button>
       </motion.div>
     </motion.div>
   );
@@ -167,393 +190,68 @@ const SkillModal = ({ skill, isSelected, onClose }) => {
 
 const Skills = () => {
   const [selectedSkill, setSelectedSkill] = useState(null);
-  const [expandedCategory, setExpandedCategory] = useState(null);
 
   const skills = [
-    // Frontend & Mobile
-    {
-      id: 1,
-      icon: '📱',
-      name: 'Flutter',
-      experience: '5 años',
-      category: 'Frontend & Mobile'
-    },
-    {
-      id: 2,
-      icon: '🅰️',
-      name: 'Angular',
-      experience: '4 años',
-      category: 'Frontend & Mobile'
-    },
-    {
-      id: 3,
-      icon: '⚛️',
-      name: 'React',
-      experience: '2 años',
-      category: 'Frontend & Mobile'
-    },
-    // Backend
-    {
-      id: 5,
-      icon: '⚡',
-      name: '.NET Core',
-      experience: '4 años',
-      category: 'Backend'
-    },
-    {
-      id: 6,
-      icon: '🦅',
-      name: 'NestJS',
-      experience: '3 años',
-      category: 'Backend'
-    },
-    {
-      id: 8,
-      icon: '🌿',
-      name: 'Spring Boot',
-      experience: '2 años',
-      category: 'Backend'
-    },
-    {
-      id: 9,
-      icon: '🐍',
-      name: 'Python',
-      experience: '2 años',
-      category: 'Backend'
-    },
-    // Bases de Datos
-    {
-      id: 10,
-      icon: '💾',
-      name: 'SQL Server',
-      experience: '5 años',
-      category: 'Bases de Datos'
-    },
-    {
-      id: 11,
-      icon: '🐘',
-      name: 'PostgreSQL',
-      experience: '4 años',
-      category: 'Bases de Datos'
-    },
-    {
-      id: 12,
-      icon: '🗄️',
-      name: 'Oracle',
-      experience: '3 años',
-      category: 'Bases de Datos'
-    },
-    {
-      id: 13,
-      icon: '📦',
-      name: 'MongoDB',
-      experience: '2 años',
-      category: 'Bases de Datos'
-    },
-    // Cloud & DevOps
-    {
-      id: 14,
-      icon: '☁️',
-      name: 'AWS',
-      experience: '2 años',
-      category: 'Cloud & DevOps'
-    },
-    {
-      id: 15,
-      icon: '🔥',
-      name: 'Firebase',
-      experience: '3 años',
-      category: 'Cloud & DevOps'
-    },
-    {
-      id: 16,
-      icon: '🔄',
-      name: 'Azure DevOps',
-      experience: '2 años',
-      category: 'Cloud & DevOps'
-    },
-    {
-      id: 17,
-      icon: '🐳',
-      name: 'Docker',
-      experience: '2 años',
-      category: 'Cloud & DevOps'
-    },
-    // Gestión de Estado
-    {
-      id: 18,
-      icon: '📦',
-      name: 'Bloc Pattern',
-      experience: '4 años',
-      category: 'Gestión de Estado'
-    },
-    {
-      id: 19,
-      icon: '🎯',
-      name: 'GetX',
-      experience: '3 años',
-      category: 'Gestión de Estado'
-    },
-    {
-      id: 20,
-      icon: '🔄',
-      name: 'Provider',
-      experience: '4 años',
-      category: 'Gestión de Estado'
-    },
-    {
-      id: 21,
-      icon: '⚛️',
-      name: 'Redux',
-      experience: '2 años',
-      category: 'Gestión de Estado'
-    },
-    // Testing & Quality
-    {
-      id: 22,
-      icon: '🧪',
-      name: 'Pruebas Automatizadas',
-      experience: '3 años',
-      category: 'Testing & Quality'
-    },
-    {
-      id: 23,
-      icon: '🎯',
-      name: 'Pruebas Unitarias',
-      experience: '3 años',
-      category: 'Testing & Quality'
-    },
-    {
-      id: 24,
-      icon: '🔍',
-      name: 'Pruebas de Integración',
-      experience: '3 años',
-      category: 'Testing & Quality'
-    },
-    // Metodologías & Herramientas
-    {
-      id: 25,
-      icon: '📋',
-      name: 'Scrum',
-      experience: '4 años',
-      category: 'Metodologías'
-    },
-    {
-      id: 27,
-      icon: '🔄',
-      name: 'CI/CD',
-      experience: '3 años',
-      category: 'Metodologías'
-    }
+    { id: 1, icon: '📱', name: 'Flutter', experience: '5 años', category: 'Frontend & Mobile' },
+    { id: 2, icon: '🅰️', name: 'Angular', experience: '4 años', category: 'Frontend & Mobile' },
+    { id: 3, icon: '⚛️', name: 'React', experience: '2 años', category: 'Frontend & Mobile' },
+    { id: 4, icon: '⚡', name: '.NET Core', experience: '5 años', category: 'Backend' },
+    { id: 5, icon: '🦅', name: 'NestJS', experience: '3 años', category: 'Backend' },
+    { id: 6, icon: '🌱', name: 'SpringBoot', experience: '1 año', category: 'Backend' },
+    { id: 7, icon: '💾', name: 'SQL Server', experience: '5 años', category: 'Bases de Datos' },
+    { id: 8, icon: '🐘', name: 'PostgreSQL', experience: '3 años', category: 'Bases de Datos' },
+    { id: 9, icon: '🗄️', name: 'Oracle', experience: '2 años', category: 'Bases de Datos' },
+    { id: 10, icon: '☁️', name: 'AWS', experience: '2 años', category: 'Cloud & DevOps' },
+    { id: 11, icon: '🔥', name: 'Firebase', experience: '3 años', category: 'Cloud & DevOps' },
+    { id: 12, icon: '🐳', name: 'Docker', experience: '2 años', category: 'Cloud & DevOps' },
+    { id: 13, icon: '⚙️', name: 'CI_CD', experience: '2 años', category: 'Cloud & DevOps' },
+    { id: 14, icon: '📋', name: 'Scrum', experience: '4 años', category: 'Metodologías' },
+    { id: 15, icon: '🧪', name: 'Pruebas Automatizadas', experience: '3 años', category: 'Testing & Quality' }
   ];
 
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.2,
-        delayChildren: 0.3
-      }
-    }
-  };
-
-  const categoryVariants = {
-    hidden: { 
-      opacity: 0,
-      y: 50
-    },
-    visible: { 
-      opacity: 1,
-      y: 0,
-      transition: {
-        type: "spring",
-        stiffness: 100,
-        damping: 15,
-        staggerChildren: 0.1
-      }
-    }
-  };
-
-  const cardVariants = {
-    hidden: { 
-      opacity: 0,
-      y: 20,
-      scale: 0.8
-    },
-    visible: { 
-      opacity: 1,
-      y: 0,
-      scale: 1,
-      transition: {
-        type: "spring",
-        stiffness: 200,
-        damping: 20
-      }
-    },
-    hover: {
-      scale: 1.05,
-      y: -5,
-      transition: {
-        type: "spring",
-        stiffness: 400,
-        damping: 10
-      }
-    },
-    tap: {
-      scale: 0.95,
-      rotate: [-1, 1, -1, 0],
-      transition: {
-        duration: 0.3
-      }
-    },
-    selected: {
-      scale: 1.1,
-      y: -10,
-      transition: {
-        type: "spring",
-        stiffness: 400,
-        damping: 20
-      }
-    }
-  };
-
-  const iconVariants = {
-    hover: {
-      rotate: 360,
-      scale: 1.2,
-      transition: {
-        duration: 0.6,
-        ease: "easeInOut"
-      }
-    }
-  };
-
-  const overlayVariants = {
-    hidden: { opacity: 0 },
-    visible: { 
-      opacity: 1,
-      transition: {
-        duration: 0.3
-      }
-    }
-  };
-
-  const expandedCardVariants = {
-    hidden: {
-      opacity: 0,
-      scale: 0.8,
-      y: 100
-    },
-    visible: {
-      opacity: 1,
-      scale: 1,
-      y: 0,
-      transition: {
-        type: "spring",
-        stiffness: 300,
-        damping: 25
-      }
-    },
-    exit: {
-      opacity: 0,
-      scale: 0.8,
-      y: 100,
-      transition: {
-        duration: 0.3
-      }
-    }
-  };
-
-  const handleCategoryClick = (category) => {
-    setExpandedCategory(expandedCategory === category ? null : category);
-  };
-
-  const handleCardClick = (skill) => {
-    setSelectedSkill(skill);
-  };
-
-  const skillsByCategory = skills.reduce((acc, skill) => {
-    if (!acc[skill.category]) {
-      acc[skill.category] = [];
-    }
+  const groupedSkills = skills.reduce((acc, skill) => {
+    if (!acc[skill.category]) acc[skill.category] = [];
     acc[skill.category].push(skill);
     return acc;
   }, {});
 
   return (
-    <>
-      {Object.entries(skillsByCategory).map(([category, categorySkills]) => (
-        <motion.div
-          key={category}
-          className="category-container"
-          variants={categoryVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.2 }}
-          onClick={() => handleCategoryClick(category)}
-        >
-          <motion.h3 
-            className="category-title"
-            variants={cardVariants}
-            whileHover={{ scale: 1.0 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            {category}
-          </motion.h3>
-          <motion.div 
-            className="skills-grid"
-            animate={{
-              height: expandedCategory === category ? "auto" : "100%",
-              transition: { duration: 0.3 }
-            }}
-          >
-            {categorySkills.map((skill) => (
-              <motion.div
-                key={skill.id}
-                layoutId={`skill-card-${skill.id}`}
-                className="skill-card"
-                onClick={() => setSelectedSkill(skill)}
-                whileHover={{ 
-                  scale: 1.0,
-                  transition: { type: "spring", stiffness: 400 }
-                }}
-                whileTap={{ scale: 0.95 }}
-              >
-                <motion.div 
-                  className="skill-icon"
-                  layoutId={`skill-icon-${skill.id}`}
+    <div className="skills-section">
+      {Object.entries(groupedSkills).map(([category, skills]) => (
+        <div key={category} className="category-block">
+          <h3 className="category-title">{category}</h3>
+          <div className="skills-grid">
+            {skills.map(skill => {
+              const hasDetails = skillDetailsMap[skill.name];
+              return (
+                <motion.div
+                  key={skill.id}
+                  className={`skill-card ${hasDetails ? '' : 'disabled'}`}
+                  layoutId={skill.name}
+                  onClick={() => hasDetails && setSelectedSkill(skill)}
+                  initial={{ opacity: 1 }}
+                  animate={{ 
+                    opacity: selectedSkill ? (skill.name === selectedSkill.name ? 1 : 0.3) : 1,
+                    scale: selectedSkill ? (skill.name === selectedSkill.name ? 1 : 0.95) : 1
+                  }}
+                  transition={{ duration: 0.3 }}
                 >
-                  {skill.icon}
+                  <div className="skill-icon">{skill.icon}</div>
+                  <div className="skill-name">{skill.name}</div>
+                  <div className="skill-experience">{skill.experience}</div>
                 </motion.div>
-                <motion.div 
-                  className="skill-name"
-                  layoutId={`skill-name-${skill.id}`}
-                >
-                  {skill.name}
-                </motion.div>
-                <motion.div 
-                  className="skill-experience"
-                  layoutId={`skill-experience-${skill.id}`}
-                >
-                  {skill.experience}
-                </motion.div>
-              </motion.div>
-            ))}
-          </motion.div>
-        </motion.div>
+              );
+            })}
+          </div>
+        </div>
       ))}
 
       <AnimatePresence>
         {selectedSkill && (
-          <SkillModal
-            skill={selectedSkill}
-            isSelected={true}
-            onClose={() => setSelectedSkill(null)}
-          />
+          <SkillModal skill={selectedSkill} onClose={() => setSelectedSkill(null)} />
         )}
       </AnimatePresence>
-    </>
+    </div>
   );
 };
 

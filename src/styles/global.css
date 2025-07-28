@@ -1473,6 +1473,12 @@ section {
     .skill-card {
         padding: 1.5rem;
     }
+
+    .skill-card.disabled {
+        cursor: default;
+        opacity: 0.6;
+        pointer-events: none;
+      }
 } 
 
 @media (max-width: 1024px) {
@@ -1510,7 +1516,7 @@ section {
   margin: 0 auto;
   padding: 0 2rem;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
 }
 
