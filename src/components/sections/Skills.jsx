@@ -14,7 +14,7 @@ export const skillDetailsMap = {
       'Crashlytics y Analytics integrados',
     ],
     tools: ['Flutter SDK', 'Dart', 'Android Studio', 'Xcode', 'FlutterFire'],
-    experience: '+5 años',
+    experience: '+6 años',
   },
   Angular: {
     description: 'Framework robusto que utilizo desde Angular 8 en proyectos empresariales y web apps escalables.',
@@ -26,7 +26,7 @@ export const skillDetailsMap = {
       'Consumo de APIs y manejo de errores',
     ],
     tools: ['Angular CLI', 'TypeScript', 'RxJS', 'VS Code'],
-    experience: '+4 años',
+    experience: '+6 años',
   },
   React: {
     description: 'Librería moderna para desarrollo frontend basada en componentes y declaratividad.',
@@ -37,7 +37,7 @@ export const skillDetailsMap = {
       'Optimización de performance y lazy loading',
     ],
     tools: ['React DevTools', 'Vite', 'Redux Toolkit', 'Tailwind CSS'],
-    experience: '+2 años',
+    experience: '+3 años',
   },
   '.NET Core': {
     description: 'Framework principal que uso para desarrollar APIs RESTful, microservicios y sistemas empresariales.',
@@ -49,7 +49,7 @@ export const skillDetailsMap = {
       'Despliegue en IIS, Heroku, Railway y AWS',
     ],
     tools: ['Visual Studio', 'Swagger', 'Postman', 'SQL Server', 'LINQPad'],
-    experience: '+5 años',
+    experience: '+6 años',
   },
   NestJS: {
     description: 'Framework modular de Node.js con el que desarrollo APIs escalables y mantenibles.',
@@ -71,7 +71,7 @@ export const skillDetailsMap = {
       'Autenticación con JWT',
     ],
     tools: ['Spring Tool Suite', 'Postman', 'Swagger'],
-    experience: '+1 año',
+    experience: '+6 años',
   },
   SQLServer: {
     description: 'Motor de base de datos relacional con el que desarrollo y optimizo consultas complejas.',
@@ -81,7 +81,7 @@ export const skillDetailsMap = {
       'Integración con .NET',
     ],
     tools: ['SSMS', 'SQL Profiler', 'Azure Data Studio'],
-    experience: '+5 años',
+    experience: '+6 años',
   },
   PostgreSQL: {
     description: 'Motor que uso en ambientes productivos, especialmente con NestJS y microservicios.',
@@ -101,7 +101,7 @@ export const skillDetailsMap = {
       'Integración vía ODP.NET',
     ],
     tools: ['SQL Developer', 'Toad', 'Oracle Forms'],
-    experience: '+2 años',
+    experience: '+4 años',
   },
   Firebase: {
     description: 'Backend como servicio para prototipos y apps móviles reales.',
@@ -113,7 +113,7 @@ export const skillDetailsMap = {
       'Push notifications con FCM',
     ],
     tools: ['Firebase Console', 'Firebase CLI', 'FlutterFire'],
-    experience: '+3 años',
+    experience: '+4 años',
   },
   AWS: {
     description: 'Plataforma cloud utilizada para despliegue y servicios móviles.',
@@ -124,7 +124,7 @@ export const skillDetailsMap = {
       'Funciones Lambda y API Gateway',
     ],
     tools: ['AWS Console', 'Amplify CLI', 'CloudWatch', 'IAM'],
-    experience: '+2 años',
+    experience: '+3 años',
   },
   Docker: {
     description: 'Herramienta esencial para ambientes de desarrollo consistentes y despliegue.',
@@ -134,7 +134,7 @@ export const skillDetailsMap = {
       'Integración en CI/CD pipelines',
     ],
     tools: ['Docker CLI', 'Docker Desktop'],
-    experience: '+2 años',
+    experience: '+3 años',
   },
   CI_CD: {
     description: 'Configuración de pipelines automatizados para entrega continua de software.',
@@ -144,10 +144,9 @@ export const skillDetailsMap = {
       'Workflows por entorno (QA, prod)',
     ],
     tools: ['GitHub Actions', 'Codemagic', 'Docker', 'YAML'],
-    experience: '+2 años',
+    experience: '+3 años',
   }
 };
-
 
 const SkillModal = ({ skill, onClose }) => {
   const details = skillDetailsMap[skill.name];
@@ -192,21 +191,24 @@ const Skills = () => {
   const [selectedSkill, setSelectedSkill] = useState(null);
 
   const skills = [
-    { id: 1, icon: '📱', name: 'Flutter', experience: '5 años', category: 'Frontend & Mobile' },
-    { id: 2, icon: '🅰️', name: 'Angular', experience: '4 años', category: 'Frontend & Mobile' },
-    { id: 3, icon: '⚛️', name: 'React', experience: '2 años', category: 'Frontend & Mobile' },
-    { id: 4, icon: '⚡', name: '.NET Core', experience: '5 años', category: 'Backend' },
+    { id: 1, icon: '📱', name: 'Flutter', experience: '6 años', category: 'Frontend & Mobile' },
+    { id: 2, icon: '🅰️', name: 'Angular', experience: '6 años', category: 'Frontend & Mobile' },
+    { id: 3, icon: '⚛️', name: 'React', experience: '3 años', category: 'Frontend & Mobile' },
+  
+    { id: 4, icon: '⚡', name: '.NET Core', experience: '6 años', category: 'Backend' },
     { id: 5, icon: '🦅', name: 'NestJS', experience: '3 años', category: 'Backend' },
-    { id: 6, icon: '🌱', name: 'SpringBoot', experience: '1 año', category: 'Backend' },
-    { id: 7, icon: '💾', name: 'SQL Server', experience: '5 años', category: 'Bases de Datos' },
+    { id: 6, icon: '🌱', name: 'SpringBoot', experience: '6 años', category: 'Backend' },
+  
+    { id: 7, icon: '💾', name: 'SQL Server', experience: '6 años', category: 'Bases de Datos' },
     { id: 8, icon: '🐘', name: 'PostgreSQL', experience: '3 años', category: 'Bases de Datos' },
-    { id: 9, icon: '🗄️', name: 'Oracle', experience: '2 años', category: 'Bases de Datos' },
-    { id: 10, icon: '☁️', name: 'AWS', experience: '2 años', category: 'Cloud & DevOps' },
-    { id: 11, icon: '🔥', name: 'Firebase', experience: '3 años', category: 'Cloud & DevOps' },
-    { id: 12, icon: '🐳', name: 'Docker', experience: '2 años', category: 'Cloud & DevOps' },
-    { id: 13, icon: '⚙️', name: 'CI_CD', experience: '2 años', category: 'Cloud & DevOps' },
-    { id: 14, icon: '📋', name: 'Scrum', experience: '4 años', category: 'Metodologías' },
-    { id: 15, icon: '🧪', name: 'Pruebas Automatizadas', experience: '3 años', category: 'Testing & Quality' }
+    { id: 9, icon: '🗄️', name: 'Oracle', experience: '4 años', category: 'Bases de Datos' },
+  
+    { id: 10, icon: '☁️', name: 'AWS', experience: '3 años', category: 'Cloud & DevOps' },
+    { id: 11, icon: '🔥', name: 'Firebase', experience: '4 años', category: 'Cloud & DevOps' },
+    { id: 12, icon: '🐳', name: 'Docker', experience: '3 años', category: 'Cloud & DevOps' },
+    { id: 13, icon: '⚙️', name: 'CI_CD', experience: '3 años', category: 'Cloud & DevOps' },
+  
+    { id: 14, icon: '📋', name: 'Scrum', experience: '6 años', category: 'Metodologías' }
   ];
 
   const groupedSkills = skills.reduce((acc, skill) => {
