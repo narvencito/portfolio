@@ -9,39 +9,57 @@ const Header = () => {
   const headerOpacity = useTransform(scrollY, [0, 200], [0, 1]);
   const headerY = useTransform(scrollY, [0, 200], [-100, 0]);
 
-  const handleHomeClick = (e) => {
+  const handleMenuClick = (section) => (e) => {
     e.preventDefault();
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth'
-    });
-    setActiveSection('home');
+    const element = document.getElementById(section);
+    if (element) {
+      const offsetTop = element.offsetTop;
+      window.scrollTo({
+        top: section === 'home' ? 0 : offsetTop - 80,
+        behavior: 'smooth'
+      });
+    }
+    setActiveSection(section);
+    setIsMenuOpen(false);
   };
 
   useEffect(() => {
     const handleScroll = () => {
       const sections = document.querySelectorAll('section[id]');
-      const scrollPosition = window.scrollY + 100;
+      const scrollPosition = window.scrollY;
 
-      // Si estamos cerca del inicio, activar la sección "home"
-      if (scrollPosition < 300) {
+      // Si estamos en la parte superior, activar "home"
+      if (scrollPosition < window.innerHeight / 3) {
         setActiveSection('home');
         return;
       }
 
-      sections.forEach(section => {
-        const sectionTop = section.offsetTop;
-        const sectionHeight = section.offsetHeight;
-        const sectionId = section.getAttribute('id');
+      // Encontrar la sección más cercana al scroll actual
+      let closestSection = null;
+      let closestDistance = Infinity;
 
-        if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
-          setActiveSection(sectionId);
+      sections.forEach(section => {
+        const sectionTop = section.offsetTop - 100;
+        const sectionBottom = sectionTop + section.offsetHeight;
+        const distance = Math.abs(scrollPosition - sectionTop);
+
+        if (
+          scrollPosition >= sectionTop && 
+          scrollPosition < sectionBottom && 
+          distance < closestDistance
+        ) {
+          closestSection = section.getAttribute('id');
+          closestDistance = distance;
         }
       });
+
+      if (closestSection) {
+        setActiveSection(closestSection);
+      }
     };
 
     window.addEventListener('scroll', handleScroll);
-    handleScroll();
+    handleScroll(); // Llamar inicialmente para establecer la sección activa
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
   
@@ -65,7 +83,7 @@ const Header = () => {
             <a 
               href="#home" 
               className={activeSection === 'home' ? 'active' : ''}
-              onClick={handleHomeClick}
+              onClick={handleMenuClick('home')}
             >
               Inicio
             </a>
@@ -74,6 +92,7 @@ const Header = () => {
             <a 
               href="#about" 
               className={activeSection === 'about' ? 'active' : ''}
+              onClick={handleMenuClick('about')}
             >
               Sobre mí
             </a>
@@ -82,6 +101,7 @@ const Header = () => {
             <a 
               href="#skills" 
               className={activeSection === 'skills' ? 'active' : ''}
+              onClick={handleMenuClick('skills')}
             >
               Habilidades
             </a>
@@ -90,6 +110,7 @@ const Header = () => {
             <a 
               href="#projects" 
               className={activeSection === 'projects' ? 'active' : ''}
+              onClick={handleMenuClick('projects')}
             >
               Proyectos
             </a>
@@ -98,6 +119,7 @@ const Header = () => {
             <a 
               href="#contact" 
               className={activeSection === 'contact' ? 'active' : ''}
+              onClick={handleMenuClick('contact')}
             >
               Contacto
             </a>
